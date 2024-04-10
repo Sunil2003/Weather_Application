@@ -21,13 +21,15 @@ const API_KEY =  `c82f6edc72a26f90bf4f1dfdfee193ef`;
 
 
 const getWeather = async (city) => {
-    // console.log(typeof city);
-
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    return showWeather(data);
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+  try {
+      const response = await fetch(url);
+      const data = await response.json();
+      showWeather(data);
+  } catch (error) {
+      console.error(error);
+      // Handle error here, e.g. by showing an error message to the user
+  }
 }
 
 let getCountryName = (code) => {
@@ -51,7 +53,7 @@ let getCurrentDateTime = (dt) => {
 
 const showWeather = (data) => {
   console.log(data);
-    if(data.cod == '404'){
+    if(data.cod === '404'){
       getWeather("Delhi");
     }
     
@@ -92,6 +94,7 @@ let getCurrentCity = async (lat,long,callback) =>{
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
         (position) => {
         //   console.log(position.coords.latitude);
@@ -105,7 +108,10 @@ document.addEventListener("DOMContentLoaded",()=>{
         (error) => {
           console.log(error.message);
         }
-      )
-})
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+  }
+});
 
 
