@@ -50,8 +50,11 @@ let getCurrentDateTime = (dt) => {
   };
 
 const showWeather = (data) => {
-
-    console.log(data);
+  console.log(data);
+    if(data.cod == '404'){
+      getWeather("Delhi");
+    }
+    
 
     const { main, name, weather, wind, sys, dt } = data;
 
@@ -81,7 +84,7 @@ form.addEventListener(
 
 
 let getCurrentCity = async (lat,long,callback) =>{
-    const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${1}&appid=${API_KEY}`;
+    const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${5}&appid=${API_KEY}`;
       const response_live = await fetch(city_url);
      const live_data = await response_live.json();
     // console.log(live_data[0].name);
