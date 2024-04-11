@@ -13,7 +13,6 @@ let w_pressure = document.querySelector(".weather_pressure");
 
 let citySearch = document.querySelector(".city_name");
 
-// let city = `Jaipur`;
 const form = document.querySelector("form");
 const API_KEY =  `c82f6edc72a26f90bf4f1dfdfee193ef`;
 
@@ -26,13 +25,13 @@ document.addEventListener("DOMContentLoaded",()=>{
         //   console.log(position.coords.latitude);
 
           const { latitude, longitude } = position.coords;
-         getCurrentCity(latitude,longitude,(cityVal)=>{
-            let current_city = `${cityVal}`;
-            getWeather(current_city);
+            getCurrentCity(latitude,longitude,(cityVal)=>{
+            // let current_city = ``;
+            getWeather(`${cityVal}`);
          });       
         },
         (error) => {
-          console.log(error.message);
+          alert(error.message);
         }
       );
     } else {
@@ -41,14 +40,13 @@ document.addEventListener("DOMContentLoaded",()=>{
 });
 
 
-
-
-
-var getWeather = async (city) => {
+let getWeather = async (city) => {
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+
   try {
       const response = await fetch(url);
       const data = await response.json();
+      // console.log(data);
       showWeather(data);
   } catch (error) {
       console.error(error);
@@ -56,11 +54,11 @@ var getWeather = async (city) => {
   }
 }
 
-var getCountryName = (code) => {
+let getCountryName = (code) => {
     return new Intl.DisplayNames([code], { type: "region" }).of(code);
 };
 
-var getCurrentDateTime = (dt) => {
+let getCurrentDateTime = (dt) => {
     let currDate = new Date(dt * 1000);
   
     let options = {
@@ -75,13 +73,14 @@ var getCurrentDateTime = (dt) => {
     return new Intl.DateTimeFormat("en-US", options).format(currDate);
   };
 
-var showWeather = (data) => {
-  console.log(data);
-    if(data.cod === '404'){
-      getWeather("Delhi");
-    }
+let showWeather = (data) => {
+
+     if(data.cod == '404'){
+        alert('City not found!!')
+        return;
+      };
     
-    const { main, name, weather, wind, sys, dt } = data;
+    const { main, name, weather, wind, dt, sys } = data;
 
     cityName.innerHTML = `${name}, ${getCountryName(sys.country)}`;
     dateTime.innerHTML = `${getCurrentDateTime(dt)}`;
@@ -89,7 +88,6 @@ var showWeather = (data) => {
     w_icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${weather[0].icon}@4x.png" />`;
     w_temperature.innerHTML = `${(main.temp).toFixed(0)}&#176C`;
     w_minTem.innerHTML = `MIN : ${(main.temp_min).toFixed(2)}&#176C`;
-
     w_maxTem.innerHTML = `MAX : ${(main.temp_max).toFixed(2)}&#176C`;
     w_feelsLike.innerHTML = `${(main.feels_like).toFixed(2)}&#176C`;
     w_humidity.innerHTML = `${main.humidity}%`;
@@ -108,11 +106,13 @@ form.addEventListener(
 );
 
 
-var getCurrentCity = async (lat,long,callback) =>{
-    const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${5}&appid=${API_KEY}`;
-      const response_live = await fetch(city_url);
+let getCurrentCity = async (lat,long,callback) =>{
+    const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${1}&appid=${API_KEY}`;
+   
+    const response_live = await fetch(city_url);
      const live_data = await response_live.json();
-    // console.log(live_data[0].name);
+    //  console.log(live_data);
+  
     callback(live_data[0].name);   
 }
 
