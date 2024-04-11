@@ -77,11 +77,10 @@ var getCurrentDateTime = (dt) => {
 
 var showWeather = (data) => {
   console.log(data);
-    // if(data.cod === '404'){
-    //   getWeather("Delhi");
-    // }
+    if(data.cod === '404'){
+      getWeather("Delhi");
+    }
     
-
     const { main, name, weather, wind, sys, dt } = data;
 
     cityName.innerHTML = `${name}, ${getCountryName(sys.country)}`;
