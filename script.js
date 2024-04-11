@@ -19,8 +19,32 @@ const API_KEY =  `c82f6edc72a26f90bf4f1dfdfee193ef`;
 
 // const API = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
 
+document.addEventListener("DOMContentLoaded",()=>{
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+        //   console.log(position.coords.latitude);
 
-const getWeather = async (city) => {
+          const { latitude, longitude } = position.coords;
+         getCurrentCity(latitude,longitude,(cityVal)=>{
+            let current_city = `${cityVal}`;
+            getWeather(current_city);
+         });       
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+  }
+});
+
+
+
+
+
+var getWeather = async (city) => {
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
   try {
       const response = await fetch(url);
@@ -32,11 +56,11 @@ const getWeather = async (city) => {
   }
 }
 
-let getCountryName = (code) => {
+var getCountryName = (code) => {
     return new Intl.DisplayNames([code], { type: "region" }).of(code);
 };
 
-let getCurrentDateTime = (dt) => {
+var getCurrentDateTime = (dt) => {
     let currDate = new Date(dt * 1000);
   
     let options = {
@@ -51,7 +75,7 @@ let getCurrentDateTime = (dt) => {
     return new Intl.DateTimeFormat("en-US", options).format(currDate);
   };
 
-const showWeather = (data) => {
+var showWeather = (data) => {
   console.log(data);
     if(data.cod === '404'){
       getWeather("Delhi");
@@ -85,33 +109,11 @@ form.addEventListener(
 );
 
 
-let getCurrentCity = async (lat,long,callback) =>{
+var getCurrentCity = async (lat,long,callback) =>{
     const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${5}&appid=${API_KEY}`;
       const response_live = await fetch(city_url);
      const live_data = await response_live.json();
     // console.log(live_data[0].name);
     callback(live_data[0].name);   
 }
-
-document.addEventListener("DOMContentLoaded",()=>{
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-        //   console.log(position.coords.latitude);
-
-          const { latitude, longitude } = position.coords;
-         getCurrentCity(latitude,longitude,(cityVal)=>{
-            let current_city = `${cityVal}`;
-            getWeather(current_city);
-         });       
-        },
-        (error) => {
-          console.log(error.message);
-        }
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-  }
-});
-
 
