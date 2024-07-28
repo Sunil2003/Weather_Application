@@ -52,7 +52,7 @@ let getWeather = async (city) => {
       console.log(err.message);
       // Handle error here, e.g. by showing an error message to the user
   }
-}
+};
 
 let getCountryName = (code) => {
     return new Intl.DisplayNames([code], { type: "region" }).of(code);
@@ -105,8 +105,9 @@ form.addEventListener(
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-    // citySearch.value = delhi;
-    getWeather(`delhi`);
+    citySearch.value = "delhi";
+    getWeather(citySearch.value);
+    citySearch.value = "";
 });
 
 
