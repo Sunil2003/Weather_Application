@@ -18,24 +18,28 @@ const API_KEY =  `c82f6edc72a26f90bf4f1dfdfee193ef`;
 
 // const API = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
 
-document.addEventListener("DOMContentLoaded",()=>{
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-        //   console.log(position.coords.latitude);
+// document.addEventListener("DOMContentLoaded",()=>{
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//         (position) => {
+//         //   console.log(position.coords.latitude);
 
-          const { latitude, longitude } = position.coords;
-            getCurrentCity(latitude,longitude,(cityVal)=>{
-            getWeather(cityVal);
-         });       
-        },
-        (error) => {
-          alert(error.message);
-        }
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-  }
+//           const { latitude, longitude } = position.coords;
+//             getCurrentCity(latitude,longitude,(cityVal)=>{
+//             getWeather(cityVal);
+//          });       
+//         },
+//         (error) => {
+//           alert(error.message);
+//         }
+//       );
+//     } else {
+//       console.log("Geolocation is not supported by this browser.");
+//   }
+// });
+
+document.addEventListener('load', () => {
+      getWeather('delhi');
 });
 
 
@@ -104,14 +108,14 @@ form.addEventListener(
 );
 
 
-let getCurrentCity = async (lat,long,callback) =>{
-    const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${1}&appid=${API_KEY}`;
+// let getCurrentCity = async (lat,long,callback) =>{
+//     const city_url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=${1}&appid=${API_KEY}`;
    
-    const response_live = await fetch(city_url);
-     const live_data = await response_live.json();
-    //  console.log(live_data);
+//     const response_live = await fetch(city_url);
+//      const live_data = await response_live.json();
+//     //  console.log(live_data);
 
     
-    callback(live_data[0].name);   
-}
+//     callback(live_data[0].name);   
+// }
 
