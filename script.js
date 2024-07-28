@@ -26,8 +26,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
           const { latitude, longitude } = position.coords;
             getCurrentCity(latitude,longitude,(cityVal)=>{
-            // let current_city = ``;
-            getWeather(`${cityVal}`);
+            getWeather(cityVal);
          });       
         },
         (error) => {
@@ -48,13 +47,8 @@ let getWeather = async (city) => {
       const data = await response.json();
       // console.log(data);
       showWeather(data);
-  } catch (error) {
-      // console.error(error.message);
-
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=${API_KEY}&units=metric`);
-      const data = await response.json();
-      // console.log(data);
-      showWeather(data);
+  } catch (err) {
+      console.log(err.message);
       // Handle error here, e.g. by showing an error message to the user
   }
 }
@@ -78,11 +72,11 @@ let getCurrentDateTime = (dt) => {
     return new Intl.DateTimeFormat("en-US", options).format(currDate);
   };
 
-let showWeather = async (data) => {
-     // if(data.cod == '404'){
-     //    alert('City not found!!')
-     //    return;
-     //  };
+let showWeather = (data) => {
+     if(data.cod == '404'){
+        alert('City not found!!')
+        return;
+      };
     
     const { main, name, weather, wind, dt, sys } = data;
 
@@ -118,6 +112,6 @@ let getCurrentCity = async (lat,long,callback) =>{
     //  console.log(live_data);
 
     
-    callback(live_data[0].name ? live_data[0].name : delhi);   
+    callback(live_data[0].name);   
 }
 
