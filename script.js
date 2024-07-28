@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 
 let getWeather = async (city) => {
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
 
   try {
       const response = await fetch(url);
@@ -49,7 +49,7 @@ let getWeather = async (city) => {
       // console.log(data);
       showWeather(data);
   } catch (error) {
-      console.error(error);
+      console.error(error.message);
       // Handle error here, e.g. by showing an error message to the user
   }
 }
@@ -73,8 +73,9 @@ let getCurrentDateTime = (dt) => {
     return new Intl.DateTimeFormat("en-US", options).format(currDate);
   };
 
-let showWeather = (data) => {
+let showWeather = async (data) => {
 
+    data = await data;
      if(data.cod == '404'){
         alert('City not found!!')
         return;
@@ -112,7 +113,8 @@ let getCurrentCity = async (lat,long,callback) =>{
     const response_live = await fetch(city_url);
      const live_data = await response_live.json();
     //  console.log(live_data);
-  
-    callback(live_data[0].name);   
+
+    
+    callback(live_data[0].name ? live_data[0].name : delhi);   
 }
 
