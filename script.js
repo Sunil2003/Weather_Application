@@ -38,9 +38,6 @@ const API_KEY =  `c82f6edc72a26f90bf4f1dfdfee193ef`;
 //   }
 // });
 
-document.addEventListener("DOMContentLoaded", () => {
-      getWeather(`delhi`);
-});
 
 
 let getWeather = async (city) => {
@@ -106,6 +103,12 @@ form.addEventListener(
         citySearch.value = "";
     }
 );
+
+document.addEventListener("DOMContentLoaded", () => {
+    // citySearch.value = delhi;
+    getWeather(`delhi`);
+});
+
 
 
 // let getCurrentCity = async (lat,long,callback) =>{
