@@ -38,8 +38,8 @@ const API_KEY =  `c82f6edc72a26f90bf4f1dfdfee193ef`;
 //   }
 // });
 
-document.addEventListener('load', () => {
-      getWeather('delhi');
+document.addEventListener("DOMContentLoaded", () => {
+      getWeather(`delhi`);
 });
 
 
