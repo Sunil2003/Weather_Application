@@ -49,7 +49,12 @@ let getWeather = async (city) => {
       // console.log(data);
       showWeather(data);
   } catch (error) {
-      console.error(error.message);
+      // console.error(error.message);
+
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=${API_KEY}&units=metric`);
+      const data = await response.json();
+      // console.log(data);
+      showWeather(data);
       // Handle error here, e.g. by showing an error message to the user
   }
 }
@@ -74,8 +79,6 @@ let getCurrentDateTime = (dt) => {
   };
 
 let showWeather = async (data) => {
-
-    data = await data;
      if(data.cod == '404'){
         alert('City not found!!')
         return;
