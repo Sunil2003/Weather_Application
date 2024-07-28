@@ -79,10 +79,10 @@ let getCurrentDateTime = (dt) => {
   };
 
 let showWeather = async (data) => {
-     if(data.cod == '404'){
-        alert('City not found!!')
-        return;
-      };
+     // if(data.cod == '404'){
+     //    alert('City not found!!')
+     //    return;
+     //  };
     
     const { main, name, weather, wind, dt, sys } = data;
 
